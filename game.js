@@ -24,7 +24,8 @@ var player = {
     height: 5,
     speed: 3,
     velX: 0,
-    velY: 0
+    velY: 0,
+    jumping: false
 };
 
 // init an array of keys to be pressed
@@ -36,8 +37,11 @@ var friction = 0.8;
 function update () {
     // check for keys
     // --
-    // up arrow
-    if (keys[38]) {
+    // up arrow or space
+    if (keys[38] || keys[32]) {
+        // jump!
+        player.jumping = true;
+        player.velY = -player.speed * 2;
     }
 
     // right arrow
