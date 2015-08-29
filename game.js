@@ -34,14 +34,19 @@ var keys = [];
 // add friction
 var friction = 0.8;
 
+// add gravity
+var gravity = 0.3;
+
 function update () {
     // check for keys
     // --
     // up arrow or space
     if (keys[38] || keys[32]) {
         // jump!
-        player.jumping = true;
-        player.velY = -player.speed * 2;
+        if (!player.jumping) {
+            player.jumping = true;
+            player.velY = -player.speed * 2;
+        }
     }
 
     // right arrow
@@ -60,7 +65,11 @@ function update () {
         }
     }
 
+    // apply friction
     player.velX *= friction;
+
+    // apply gravity
+    player.velY += gravity;
 
     // move the player
     player.x += player.velX;
@@ -71,6 +80,12 @@ function update () {
         player.x = width - player.width;
     } else if (player.x <= 0) {
         player.x = 0;
+    }
+
+    // don't allow the player to jump off the screen
+    if (player.y >= height - player.height) {
+        player.y = height - player.height;
+        player.jumping = false;
     }
 
     // draw player
